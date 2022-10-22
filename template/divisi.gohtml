@@ -1,0 +1,56 @@
+{{define "devisi"}}
+{{template "header"}}
+
+<h1 align="center">Divisi</h1>
+<p align="center">
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+</p>
+
+<input type="text" id="test">
+<select name="divisi" align="center" id="divisi">
+  <option>Tidak Ada</option>
+  {{range $index, $element := .Kelas}}
+    <option>{{$element.Kelas}}</option>
+  {{end}}
+</select>
+
+<table border="1" cellpadding="2" cellspacing="0" align="center">
+  <tr>
+    <th>Nama</th>
+    <th>Alamat</th>
+    <th>Jenis Kelamin</th>
+  </tr>
+
+  {{range $index, $element := .Siswa}}
+  <tr>
+    <td id="Data">{{$element.Name}}</td>
+    <td id="Data">{{$element.Alamat}}</td>
+    <td id="Data">{{$element.Jk}}</td>
+    </tr>
+  {{else}}
+  <tr>
+    <td colspan="3" align="center">Belum Ada Data Siswa</td>
+  </tr>
+  {{end}}
+
+</table>
+
+{{template "footer"}}
+<script>
+    let cek = document.querySelector('#divisi')
+    const itemList = document.querySelectorAll('#Data')
+
+    cek.addEventListener('change', () => {
+      let value = cek.value
+      itemList.forEach((item) =>{
+        let text = item.textContent
+        if (text.toLowerCase().includes(value.toLowerCase())) {
+          item.style.display = ''
+        }else {
+          item.style.display = 'none'
+        }
+      })
+    })
+</script>
+{{end}}

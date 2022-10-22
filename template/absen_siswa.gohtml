@@ -1,0 +1,56 @@
+{{define "absen"}}
+{{template "header"}}
+
+<h1 align="center">ini Absen</h1>
+
+<p align="center">
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+</p>
+
+<table align="center" cellpadding="5" cellspacing="0">
+    <tr>
+      <td>No</td>
+      <td>Nama</td>
+      <td>Jk</td>
+      <td>Status</td>
+      <td>Action</td>
+    </tr>
+
+    <form action="/absenPost" method="post">
+    {{range $index, $element := .Siswa}}
+    <tr>
+      <input type="hidden" name="status[{{$element.Id}}]" id="cek[{{$element.Id}}]" value="A">
+      <td>{{$element.Id}}</td>
+      <td>{{$element.Name}}</td>
+      <td>{{$element.Jk}}</td>
+      <td id="status[{{$element.Id}}]">A</td>
+      <td><button type="button" id="A[{{$element.Id}}]">A</button> <button type="button" id="H[{{$element.Id}}]">H</button> <button type="button" id="S[{{$element.Id}}]">S</button></td>
+
+      <script type="text/javascript">
+          document.getElementById('A[{{$element.Id}}]').onclick = function() {
+              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "A"
+              let tes = document.getElementById('cek[{{$element.Id}}]').value = "A"
+        	}
+
+          document.getElementById('H[{{$element.Id}}]').onclick = function() {
+              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "H"
+              let tes = document.getElementById('cek[{{$element.Id}}]').value = "H"
+        	}
+
+          document.getElementById('S[{{$element.Id}}]').onclick = function() {
+              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "S"
+              let tes = document.getElementById('cek[{{$element.Id}}]').value = "S"
+        	}
+      </script>
+    </tr>
+    {{end}}
+
+    <tr>
+      <td><input type="submit" value="Simpan"></td>
+    </tr>
+  </form>
+</table>
+
+{{template "footer"}}
+{{end}}

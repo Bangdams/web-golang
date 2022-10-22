@@ -1,0 +1,19 @@
+{{define "tambahSiswa"}}
+{{template "header"}}
+
+<form class="" action="post" method="post">
+  <label>Nama : <input type="text" name="name"></label><br>
+
+  <label>Alamat : <input type="text" name="alamat"></label><br>
+
+  <label>
+    <select name="jk">
+      <option value="laki-laki">Laki-Laki</option>
+      <option value="perempuan">Perempuan</option>
+    </select>
+  </label><br>
+  <button type="submit">Simpan</button>
+</form>
+
+{{template "footer"}}
+{{end}}

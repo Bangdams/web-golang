@@ -1,0 +1,26 @@
+{{define "siswa"}}
+{{template "header"}}
+
+<h2 align="center">Data Siswa Cek</h2>
+<p align="center">
+  <a href="/">Home</a>
+  <a href="/divisi">Divisi</a>
+  <a href="/about">About</a>
+</p>
+
+<table border="1" cellpadding="2" cellspacing="0" align="center">
+  <a href="tambah" align="center">tambah</a>
+  <button type="button" name="addSiswa" class="addSiswa">Tambah Modal</button>
+  <tbody>
+    <tr>
+      <th>Nama</th>
+      <th>Alamat</th>
+      <th>Jenis Kelamin</th>
+      <th>Action</th>
+    </tr>
+    
+    {{.Data}}
+  </tbody>
+</table>
+{{template "footer"}}
+{{end}}

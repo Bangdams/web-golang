@@ -1,0 +1,16 @@
+{{define "siswaData"}}
+
+{{range $index, $element := .Siswa}}
+<tr>
+  <td>{{$element.Name}}</td>
+  <td>{{$element.Alamat}}</td>
+  <td>{{$element.Jk}}</td>
+  <td><a href="edit/{{$element.Id}}">edit</a> | <a href="delete/{{$element.Id}}">hapus</a></td>
+</tr>
+{{else}}
+<tr>
+  <td colspan="3" align="center">Belum Ada Data Siswa</td>
+</tr>
+{{end}}
+
+{{end}}

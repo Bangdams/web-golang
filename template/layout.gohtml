@@ -1,12 +1,78 @@
 {{define "body"}}
 {{template "header"}}
+<div class="section-header">
+    <h1>Blank Page</h1>
+</div>
 
-<h1 align="center">Ini Menu</h1>
-<p align="center">
-  <a href="/siswa">Siswa</a>
-  <a href="/absen">Absen</a>
-  <a href="/about">about</a>
-</p>
+<div class="section-body">
+    <h2 class="section-title">DataTables</h2>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Basic DataTables</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped" id="table-1">
+                <thead>
+                  <tr>
+                    <th class="text-center">
+                      #
+                    </th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      1
+                    </td>
+                    <td>Sadam Alzani</td>
+                    <td>TasikMalaya</td>
+                    <td>Laki-laki</td>
+                    <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      2
+                    </td>
+                    <td>Santika Rahayu</td>
+                    <td>Bandung</td>
+                    <td>Perempuan</td>
+                    <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      3
+                    </td>
+                    <td>Fitriani</td>
+                    <td>Perempuan</td>
+                    <td>Jakarta</td>
+                    <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      4
+                    </td>
+                    <td>Bagas</td>
+                    <td>Ambon</td>
+                    <td>Laki-Laki</td>
+                    <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
 
 {{template "footer"}}
 {{end}}

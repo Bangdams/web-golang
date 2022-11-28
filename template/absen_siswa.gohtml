@@ -1,56 +1,87 @@
 {{define "absen"}}
 {{template "header"}}
+{{.Siswa}}
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-actions">
+                <a class="" data-action="collapse"><i class="ti-minus"></i></a>
+                <a class="btn-minimize" data-action="expand"><i class="mdi mdi-arrow-expand"></i></a>
+            </div>
+            <h4 class="card-title m-b-0">Pilih Divisi</h4>
+        </div>
+        <div class="card-body collapse show">
+          <div class="row button-group">
+              <div class="col-lg-2 col-md-4">
+                  <a href="#" class="btn waves-effect waves-light btn-block btn-info">Divisi</a>
+              </div>
+              <div class="col-lg-2 col-md-4">
+                  <a href="#" class="btn waves-effect waves-light btn-block btn-info">Divisi</a>
+              </div>
+              <div class="col-lg-2 col-md-4">
+                  <a href="#" class="btn waves-effect waves-light btn-block btn-info">Divisi</a>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
 
-<h1 align="center">ini Absen</h1>
+<div class="col-12">
+  <div class="card">
+      <div class="card-body">
+          <h4 class="card-title">Tabel Data Siswa</h4>
+          <h6 class="card-subtitle">Absen Siswa Tanggal {{.Tanggal}}</h6>
+          <div class="table-responsive m-t-40">
+              <table class="table table-bordered table-striped">
+                  <thead align="center">
+                      <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Jk</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody align="center">
+                    <form action="/absenPost" method="post">
+                    {{range $index, $element := .Siswa}}
+                    <tr>
+                      <input type="hidden" name="status[{{$element.Id}}]" id="cek[{{$element.Id}}]" value="A">
+                      <td>{{$element.Id}}</td>
+                      <td>{{$element.Name}}</td>
+                      <td>{{$element.Jk}}</td>
+                      <td id="status[{{$element.Id}}]">A</td>
+                      <td><button type="button" id="A[{{$element.Id}}]" class="btn btn-danger">A</button>
+                          <button type="button" id="H[{{$element.Id}}]" class="btn btn-success">H</button>
+                          <button type="button" id="S[{{$element.Id}}]" class="btn btn-warning">S</button></td>
 
-<p align="center">
-  <a href="/">Home</a>
-  <a href="/about">About</a>
-</p>
+                      <script type="text/javascript">
+                          document.getElementById('A[{{$element.Id}}]').onclick = function() {
+                              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "A"
+                              let tes = document.getElementById('cek[{{$element.Id}}]').value = "A"
+                        	}
 
-<table align="center" cellpadding="5" cellspacing="0">
-    <tr>
-      <td>No</td>
-      <td>Nama</td>
-      <td>Jk</td>
-      <td>Status</td>
-      <td>Action</td>
-    </tr>
+                          document.getElementById('H[{{$element.Id}}]').onclick = function() {
+                              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "H"
+                              let tes = document.getElementById('cek[{{$element.Id}}]').value = "H"
+                        	}
 
-    <form action="/absenPost" method="post">
-    {{range $index, $element := .Siswa}}
-    <tr>
-      <input type="hidden" name="status[{{$element.Id}}]" id="cek[{{$element.Id}}]" value="A">
-      <td>{{$element.Id}}</td>
-      <td>{{$element.Name}}</td>
-      <td>{{$element.Jk}}</td>
-      <td id="status[{{$element.Id}}]">A</td>
-      <td><button type="button" id="A[{{$element.Id}}]">A</button> <button type="button" id="H[{{$element.Id}}]">H</button> <button type="button" id="S[{{$element.Id}}]">S</button></td>
+                          document.getElementById('S[{{$element.Id}}]').onclick = function() {
+                              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "S"
+                              let tes = document.getElementById('cek[{{$element.Id}}]').value = "S"
+                        	}
+                      </script>
+                    </tr>
+                    {{end}}
+                  </tbody>
+              </table>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Simpan</button>
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
 
-      <script type="text/javascript">
-          document.getElementById('A[{{$element.Id}}]').onclick = function() {
-              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "A"
-              let tes = document.getElementById('cek[{{$element.Id}}]').value = "A"
-        	}
-
-          document.getElementById('H[{{$element.Id}}]').onclick = function() {
-              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "H"
-              let tes = document.getElementById('cek[{{$element.Id}}]').value = "H"
-        	}
-
-          document.getElementById('S[{{$element.Id}}]').onclick = function() {
-              let cek = document.getElementById('status[{{$element.Id}}]').innerHTML = "S"
-              let tes = document.getElementById('cek[{{$element.Id}}]').value = "S"
-        	}
-      </script>
-    </tr>
-    {{end}}
-
-    <tr>
-      <td><input type="submit" value="Simpan"></td>
-    </tr>
-  </form>
-</table>
 
 {{template "footer"}}
 {{end}}

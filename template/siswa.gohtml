@@ -1,26 +1,48 @@
 {{define "siswa"}}
 {{template "header"}}
+<div class="section-header">
+    <h1>Table Mahasiswa</h1>
+</div>
 
-<h2 align="center">Data Siswa Cek</h2>
-<p align="center">
-  <a href="/">Home</a>
-  <a href="/divisi">Divisi</a>
-  <a href="/about">About</a>
-</p>
+<div class="section-body">
+    <h2 class="section-title">DataTables</h2>
 
-<table border="1" cellpadding="2" cellspacing="0" align="center">
-  <a href="tambah" align="center">tambah</a>
-  <button type="button" name="addSiswa" class="addSiswa">Tambah Modal</button>
-  <tbody>
-    <tr>
-      <th>Nama</th>
-      <th>Alamat</th>
-      <th>Jenis Kelamin</th>
-      <th>Action</th>
-    </tr>
-    
-    {{.Data}}
-  </tbody>
-</table>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          {{range $index, $element := .Divisi}}
+            <p>{{$element.Kelas}}</p>
+           {{end}}
+          <div class="card-header">
+            <h4>Basic DataTables</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped" id="table-1">
+                <button type="button" class="addSiswa btn btn-primary mb-4">
+                  Tambah Data
+                </button>
+                <thead>
+                  <tr>
+                    <th class="text-center">
+                      #
+                    </th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{.Data}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
 {{template "footer"}}
 {{end}}

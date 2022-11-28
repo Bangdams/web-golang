@@ -16,7 +16,7 @@ func NewDivisi(db *sql.DB) DivisiRepository {
 
 
 func (repository *divisiRepositoryImpl) FindAll(ctx context.Context) ([]entity.Divisi, error) {
-  sql := "SELECT kelas FROM divisi"
+  sql := "SELECT id, kelas FROM divisi"
   rows, err := repository.DB.QueryContext(ctx, sql)
   if err != nil {
     panic(err)
@@ -26,7 +26,7 @@ func (repository *divisiRepositoryImpl) FindAll(ctx context.Context) ([]entity.D
   var divisis []entity.Divisi
   for rows.Next() {
     divisi := entity.Divisi{}
-    rows.Scan(&divisi.Kelas)
+    rows.Scan(&divisi.Id,&divisi.Kelas)
     divisis = append(divisis, divisi)
   }
 

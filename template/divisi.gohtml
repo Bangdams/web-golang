@@ -1,56 +1,133 @@
 {{define "devisi"}}
 {{template "header"}}
 
-<h1 align="center">Divisi</h1>
-<p align="center">
-  <a href="/">Home</a>
-  <a href="/about">About</a>
-</p>
+<div class="section-header">
+    <h1>Table Divisi</h1>
+</div>
 
-<input type="text" id="test">
-<select name="divisi" align="center" id="divisi">
-  <option>Tidak Ada</option>
-  {{range $index, $element := .Kelas}}
-    <option>{{$element.Kelas}}</option>
-  {{end}}
-</select>
+<div class="section-body">
+  <h2 class="section-title">DataTables</h2>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-actions">
+                    <a class="" data-action="collapse"><i class="ti-minus"></i></a>
+                    <a class="btn-minimize" data-action="expand"><i class="mdi mdi-arrow-expand"></i></a>
+                </div>
+                <h4 class="card-title m-b-0">Pilih Divisi</h4>
+            </div>
+            <div class="card-body collapse show">
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <div class="demo-radio-button">
+                          <input name="group1" type="radio" id="radio_1" class="btn1" checked />
+                          <label for="radio_1">Lihat Data</label>
+                          <input name="group1" type="radio" id="radio_2" class="btn2"/>
+                          <label for="radio_2">Absen</label>
+                      </div>
 
-<table border="1" cellpadding="2" cellspacing="0" align="center">
-  <tr>
-    <th>Nama</th>
-    <th>Alamat</th>
-    <th>Jenis Kelamin</th>
-  </tr>
+                      <label>Divisi</label>
+                      <select class="form-control custom-select" name="divisi" id="divisi">
+                          <option value="pilih">-- Pilih Divisi --</option>
+                          {{range $index, $element := .Kelas}}
+                            <option value="{{$element.Id}}">{{$element.Kelas}}</option>
+                          {{end}}
+                      </select>
 
-  {{range $index, $element := .Siswa}}
-  <tr>
-    <td id="Data">{{$element.Name}}</td>
-    <td id="Data">{{$element.Alamat}}</td>
-    <td id="Data">{{$element.Jk}}</td>
-    </tr>
-  {{else}}
-  <tr>
-    <td colspan="3" align="center">Belum Ada Data Siswa</td>
-  </tr>
-  {{end}}
+                      <label>Tingkat</label>
+                      <select class="form-control custom-select" name="divisi" id="divisi">
+                          <option>-- Pilih Tingkat --</option>
+                          <option>T-1</option>
+                          <option>T-2</option>
+                      </select>
+                  </div>
+                  <a href="#" id="absenLink"> <button type="button" class="cek btn btn-primary">Absen</button></a>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
 
-</table>
+
+  <h2 class="section-title">Data Mahasiswa</h2>
+
+  <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Basic DataTables</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th class="text-center">
+                      #
+                    </th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{range $index, $element := .Siswa}}
+                  <tr id="Data">
+                    <td>{{$index}}</td>
+                    <td>{{$element.Name}}</td>
+                    <td>{{$element.Alamat}}</td>
+                    <td>{{$element.Jk}}</td>
+                    <td style="display: none;">{{$element.Kelas}}</td>
+                    <td><a href="#" class="btn btn-primary waves-effect waves-light">
+                        <span class="btn-label"><i class="fas fa-clipboard-list"></i></span>Detail</a></td>
+                  </tr>
+                {{end}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+ <!-- Pilih Divisi -->
+ <script>
+  let cek = document.querySelector('#divisi')
+  const itemList = document.querySelectorAll('#Data')
+  let value = "pilih"
+
+  if (value == "pilih") {
+    itemList.forEach((item) =>{
+      item.style.display = 'none'
+    })
+  }
+  cek.addEventListener('change', () => {
+    value = cek.value
+    let button = document.getElementById('absenLink')
+
+    if (value === 'pilih') {
+      button.style.display = "none"
+    }else {
+       button.style.display = ''
+    }
+
+    document.getElementById('absenLink').href = "absenCek/"+value
+    itemList.forEach((item) =>{
+      let text = item.textContent
+      if (text.toLowerCase().includes(value.toLowerCase())) {
+        item.style.display = ''
+      }else if (value == 'pilih') {
+        item.style.display = 'none'
+      }else{
+        item.style.display = 'none'
+      }
+    })
+  })
+</script>
+<!-- checked -->
 
 {{template "footer"}}
-<script>
-    let cek = document.querySelector('#divisi')
-    const itemList = document.querySelectorAll('#Data')
-
-    cek.addEventListener('change', () => {
-      let value = cek.value
-      itemList.forEach((item) =>{
-        let text = item.textContent
-        if (text.toLowerCase().includes(value.toLowerCase())) {
-          item.style.display = ''
-        }else {
-          item.style.display = 'none'
-        }
-      })
-    })
-</script>
 {{end}}

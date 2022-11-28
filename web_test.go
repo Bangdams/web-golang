@@ -29,6 +29,10 @@ func templateTambah(writer http.ResponseWriter, request *http.Request, params ht
   myTemplates.ExecuteTemplate(writer, "tambahSiswa", nil)
 }
 
+func templateSadam(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+  myTemplates.ExecuteTemplate(writer, "sadam", nil)
+}
+
 func formPost(writer http.ResponseWriter, request *http.Request, params httprouter.Params)  {
   err := request.ParseForm()
   if err != nil {
@@ -38,11 +42,16 @@ func formPost(writer http.ResponseWriter, request *http.Request, params httprout
   name := request.PostForm.Get("name")
   alamat := request.PostForm.Get("alamat")
   jk := request.PostForm.Get("jk")
+  kelas := request.PostForm.Get("divisi")
+  
+  getKelas, _ := strconv.Atoi(kelas)
+  id32 := int32(getKelas)
 
   user := entity.User{
     Name: name,
     Alamat: alamat,
     Jk: jk,
+    Kelas: id32,
   }
 
   db := repository.NewSiswa(repository.GetConnection())
@@ -59,7 +68,7 @@ func formPost(writer http.ResponseWriter, request *http.Request, params httprout
   }
 
   ResponseJson(writer, http.StatusOK, data)
-  http.Redirect(writer, request, "/", http.StatusFound)
+  http.Redirect(writer, request, "/siswa", http.StatusFound)
 }
 
 func ResponseErr(writer http.ResponseWriter, code int, message string)  {
@@ -148,8 +157,10 @@ func templateAbsen(writer http.ResponseWriter, request *http.Request, params htt
     panic(err)
   }
 
+  now := time.Now()
   myTemplates.ExecuteTemplate(writer, "absen", map[string]interface{}{
     "Siswa": siswa,
+    "Tanggal": now.Format("Jan 2, 2006"),
   })
 }
 
@@ -169,7 +180,7 @@ func GetData() string {
     panic(err)
   }
 
-  myTemplates.ExecuteTemplate(buffer,"siswaData", map[ string]interface{}{
+  myTemplates.ExecuteTemplate(buffer,"siswaData", map[string]interface{}{
     "Siswa": siswa,
   })
 
@@ -212,30 +223,73 @@ func absenPost(writer http.ResponseWriter, request *http.Request, params httprou
 
 func templateDivisi(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
   db := repository.NewDivisi(repository.GetConnection())
+  dbS := repository.NewSiswa(repository.GetConnection())
   ctx := context.Background()
 
   divisi, err := db.FindAll(ctx)
+  siswa, err := dbS.FindAll(ctx)
+
   if err != nil {
     panic(err)
   }
 
   myTemplates.ExecuteTemplate(writer, "devisi", map[string]interface{}{
     "Kelas": divisi,
+    "Siswa": siswa,
+  })
+}
+
+func FindAbsen(writer http.ResponseWriter, request *http.Request, params httprouter.Params)  {
+  db := repository.NewAbsen(repository.GetConnection())
+  ctx := context.Background()
+
+  id := params.ByName("id")
+  getId, _ := strconv.Atoi(id)
+  id32 := int32(getId)
+
+  result, err := db.FindById(ctx, id32)
+  if err != nil {
+    panic(err)
+  }
+
+  now := time.Now()
+  myTemplates.ExecuteTemplate(writer, "absen", map[string]interface{}{
+    "Siswa": result,
+    "Tanggal": now.Format("Jan 2, 2006"),
   })
 }
 
 func cek(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-  myTemplates.ExecuteTemplate(writer, "modal", nil)
+  db := repository.NewDivisi(repository.GetConnection())
+  
+  ctx := context.Background()
+  divisi, err := db.FindAll(ctx)
+  if err != nil {
+    panic(err)
+  }
+
+  myTemplates.ExecuteTemplate(writer, "modal", map[string]interface{}{
+    "Divisi": divisi,
+  })
 }
 
-func TestRouter(t *testing.T) {
+func rr(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+  myTemplates.ExecuteTemplate(writer, "Test", nil)
+}
+
+
+func TestRouterR(t *testing.T) {
+
   router := httprouter.New()
   // Custom method Method Not Allowed
   // router.MethodNotAllowed = http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request)  {
   //   http.Redirect(writer, request, "/siswa", http.StatusTemporaryRedirect)
   // })
 
+  router.NotFound = http.StripPrefix("/static", http.FileServer(http.Dir("assets")))
   router.GET("/", templateMenu)
+  router.GET("/sadam", templateSadam)
+  router.GET("/rr", rr)
   router.GET("/about", templateAbout)
   router.GET("/siswa", templateSiswa)
   router.GET("/tambah", templateTambah)
@@ -243,14 +297,15 @@ func TestRouter(t *testing.T) {
   router.POST("/postt", UpdateSiswa)
   router.GET("/delete/:id", DeleteSiswa)
   router.GET("/edit/:id", EditSiswa)
-  router.GET("/absen", templateAbsen)
+  // router.GET("/absen", templateAbsen)
+  router.GET("/absenCek/:id", FindAbsen)
   router.POST("/absenPost", absenPost)
   router.GET("/divisi", templateDivisi)
   router.GET("/cek", cek)
 
   server := http.Server{
     Handler: router,
-    Addr: "localhost:8080",
+    Addr: "localhost:3030",
   }
 
   err := server.ListenAndServe()

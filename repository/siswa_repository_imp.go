@@ -16,7 +16,7 @@ func NewSiswa(db *sql.DB) SiswaRepository {
 }
 
 func (repository *siswaRepositoryImp) FindAll(ctx context.Context) ([]entity.User, error) {
-  data := "SELECT id, name, alamat, jk FROM siswa"
+  data := "SELECT id, name, alamat, jk, kelas FROM siswa"
   rows, err := repository.DB.QueryContext(ctx, data)
   if err != nil {
     panic(err)
@@ -26,7 +26,7 @@ func (repository *siswaRepositoryImp) FindAll(ctx context.Context) ([]entity.Use
   var siswas []entity.User
   for rows.Next() {
     siswa := entity.User{}
-    rows.Scan(&siswa.Id, &siswa.Name, &siswa.Alamat, &siswa.Jk)
+    rows.Scan(&siswa.Id, &siswa.Name, &siswa.Alamat, &siswa.Jk,&siswa.Kelas)
     siswas = append(siswas, siswa)
   }
 
@@ -34,8 +34,8 @@ func (repository *siswaRepositoryImp) FindAll(ctx context.Context) ([]entity.Use
 }
 
 func (repository *siswaRepositoryImp) InsertUser(ctx context.Context, user entity.User) (entity.User, error) {
-  data := "INSERT INTO siswa(name, alamat, jk) VALUES(? ,? ,?)"
-  result, err := repository.DB.ExecContext(ctx, data, user.Name, user.Alamat, user.Jk)
+  data := "INSERT INTO siswa(name, alamat, jk, kelas) VALUES(? ,? ,?, ?)"
+  result, err := repository.DB.ExecContext(ctx, data, user.Name, user.Alamat, user.Jk, user.Kelas)
   if err != nil {
     return user, err
   }

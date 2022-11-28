@@ -24,17 +24,18 @@ import (
 // }
 
 func TestQuery(t *testing.T) {
-  db := NewDivisi(GetConnection())
+  db := NewAbsen(GetConnection())
   ctx := context.Background()
-  // divisi := entity.Divisi{
-  //   Kelas: "Sofware Enginer",
+  // id := entity.User{
+  //   Id: 1,
   // }
+  id := int32(1)
 
-  divisi, err := db.FindAnggotaDiv(ctx)
+  kelas, err := db.FindById(ctx, id)
   if err != nil {
     panic(err)
   }
-  fmt.Println(divisi)
+  fmt.Println(kelas)
 }
 
 // func TestDelete(t *testing.T) {

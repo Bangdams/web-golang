@@ -5,4 +5,5 @@ type User struct {
   Name string
   Alamat string
   Jk string
+  Kelas int32
 }

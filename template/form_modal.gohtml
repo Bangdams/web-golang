@@ -9,21 +9,30 @@
     </div>
     <form action="post" method="post" id="formModal">
     <div class="modal-body">
-      <div class="form-group">
-        <label for="formGroupExampleInput">Nama</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" name="name" placeholder="Example input placeholder">
-      </div>
-      <div class="form-group">
-        <label for="formGroupExampleInput2">Alamat</label>
-        <textarea type="text" class="form-control" id="formGroupExampleInput2" name="alamat" placeholder="Another input placeholder"></textarea>
-      </div>
-      <div class="form-group">
-       <label for="inputState">Jenis Kelamin</label>
-       <select id="inputState" name="jk" class="form-control">
-         <option value="laki-laki">Laki-Laki</option>
-         <option value="perempuan">Perempuan</option>
-       </select>
-     </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput">Nama</label>
+          <input type="text" class="form-control" id="formGroupExampleInput" name="name" placeholder="Silahkan Isi Nama">
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput2">Alamat</label>
+          <textarea type="text" class="form-control" style="height: 130px;" id="formGroupExampleInput2" name="alamat" placeholder="Silahkan Isi Alamat" rows="4" cols="50"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="inputState">Pilih Divisi</label>
+         <select id="inputState" name="divisi" class="form-control">
+           <option>Pilih Divisi</option>
+           {{range $index, $element := .Divisi}}
+            <option value="{{$element.Id}}">{{$element.Kelas}}</option>
+           {{end}}
+         </select>
+       </div>
+        <div class="form-group">
+         <label for="inputState">Jenis Kelamin</label>
+         <select id="inputState" name="jk" class="form-control">
+           <option value="laki-laki">Laki-Laki</option>
+           <option value="perempuan">Perempuan</option>
+         </select>
+       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

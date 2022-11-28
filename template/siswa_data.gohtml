@@ -2,10 +2,11 @@
 
 {{range $index, $element := .Siswa}}
 <tr>
+  <td>{{$index}}</td>
   <td>{{$element.Name}}</td>
   <td>{{$element.Alamat}}</td>
   <td>{{$element.Jk}}</td>
-  <td><a href="edit/{{$element.Id}}">edit</a> | <a href="delete/{{$element.Id}}">hapus</a></td>
+  <td><a href="edit/{{$element.Id}}" class="btn btn-primary"><i class="fas fa-solid fa-pen-to-square"></i>edit</a>  <a href="delete/{{$element.Id}}" class="btn btn-danger"><i class="fas fa-solid fa-trash-can"></i>hapus</a></td>
 </tr>
 {{else}}
 <tr>

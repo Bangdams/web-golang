@@ -15,6 +15,7 @@ type SiswaRepository interface {
 
 type AbsenRepository interface {
   InsertData(ctx context.Context, absen entity.Absen) (entity.Absen, error)
+  FindById(ctx context.Context, kelas int32) ([]entity.User, error)
 }
 
 type DivisiRepository interface {
